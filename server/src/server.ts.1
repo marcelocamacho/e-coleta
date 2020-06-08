@@ -1,0 +1,46 @@
+import express from 'express';
+
+const app = express();
+
+app.use(express.json());
+
+const users = [
+    'Diego',
+    'Marcelo',
+    'Vamilis',
+    'Tulio',
+    'Gabriel'
+];
+
+app.get('/users',(request,response)=>{
+    const search = String(request.query.search);
+
+    const filteredUsers = search ? users.filter(user => user.includes(search)) : users;
+
+    return response.json(filteredUsers);
+})
+
+app.get('/users',(request, response)=>{
+    console.log('Listagem de usuários.')
+
+   return response.json(users)
+
+});
+app.get('/users/:id',(request,response)=>{
+    const id = Number(request.params.id);
+
+    return response.json(users[id])
+})
+
+app.post('/users',(request,response)=>{
+    const data = request.body;
+
+   const user={
+        name: data.name,
+        mail: data.email
+    }
+
+    return response.json(user);
+})
+
+app.listen(3333);
